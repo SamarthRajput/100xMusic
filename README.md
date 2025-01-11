@@ -1,6 +1,7 @@
 # 100x Music Application
 
-A Music Platform for all the 100xDevelopers 
+A Music Platform for all the 100xDevelopers.
+
 A Music Application where people can listen to music anytime for free without ads...
 
 People come and choose which song to listen, the song goes in the queue and then other people can upvote any song, if a song has more upvotes than other songs that song will go up in the queue and gets played next, we will try to use ad blocker api or we will build our own ad blocker in this application, if we are using youtube api.
