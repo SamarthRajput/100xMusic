@@ -1,0 +1,5 @@
+routing in nextjs 
+app/api/auth/[...nextauth]/route.ts -> anything that is coming to api/auth/anything will be handled by this router (route.ts) 
+
+Whenever you are using onClick handlers make sure you are using "use client" at the top of the file 
+The most ideal way approach is to wrap your application inside a user created context called Providers 
