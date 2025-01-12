@@ -1,4 +1,4 @@
-import { NEXT_AUTH } from "@/app/lib/auth";
+import { NEXT_AUTH } from "@/lib/auth";
 import NextAuth from "next-auth";
 // All the get and the post request are handled by this handler 
 const handler = NextAuth(NEXT_AUTH);

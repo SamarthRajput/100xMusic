@@ -1,0 +1,22 @@
+routing in nextjs 
+app/api/auth/[...nextauth]/route.ts -> anything that is coming to api/auth/anything will be handled by this router (route.ts) 
+
+Whenever you are using onClick handlers make sure you are using "use client" at the top of the file 
+The most ideal way approach is to wrap your application inside a user created context called Providers 
+
+Schemas -> User, ActiveStream, StreamHistory, Spaces, Upvotes 
+User contains admins which can create the space and choose which songs should be played 
+normal people which can join the space and upvote the songs which should be played
+
+ActiveStream set of streams that users have choosen for specific creator/admin
+StreamHistory as these videos get played and poped of the track, a place where user can see which audios where played and they can re choose from them 
+
+There should be also 1 more schema called Space where user can create multiple spaces and in each space you have a bunch of active streams 
+If i want to use my same account of mine for creating multiple such spaces i should be allowed to create multiple spaces
+
+Every Stream will be associated to a User
+Both upvotes and stream should probably be stored in redis it will just be faster 
+Every entry in the upvotes table needs to be unique for userId and StreamId you cant have 2 entries in same userId and StreamId
+single user can upvote twice on the same StreamId
+
+ #00BFFF
