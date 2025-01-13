@@ -3,6 +3,8 @@
 // the Providers array accepts CredentialsProvider which accepts an object as an argument, where we give it a name
 
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs"
+import prisma from "./db";
 
 export const NEXT_AUTH = {
     providers: [
@@ -11,23 +13,54 @@ export const NEXT_AUTH = {
             name: 'Sign In',
             // the significance of credentials is what all inputs do you want 
             credentials: {
-                email: { label: "email", type: "text", placeholder: "Email", required: true},
-                password: { label: "password", type: "password", placeholder: "Password", required: true }
+                email: { label: "Email", type: "text", placeholder: "Email", required: true},
+                password: { label: "Password", type: "password", placeholder: "Password", required: true }
             },
 
              // authorize is the most imp thing, authorize is the function that gets called anytime we click on submit or click on Sign in with Credentials
             // anytime you click on submit your username and password that you put here reach this credentials argument, here is the meet of the logic that signups the user or if the user is already signed up then signins the user make sure the password is correct 
             // and if the password is correct tells the next-auth that you are good to go, if the credentials are wrong tell the next auth the credentials are wrong 
             async authorize(credentials: any){
+                console.log(credentials.email);
+                console.log(credentials.password);
                 // do database calls 
-                console.log(credentials);
+                const hashedPassword = await bcrypt.hash(credentials.password, 10);
+                const existingUser = await prisma.user.findFirst({
+                    where: {
+                        email: credentials.email
+                    }
+                })
+                console.log(existingUser);
                 // if the user exists return the users credentials
-                // if the user doesnt exists create one user
-                return {
-                    id: "1",
-                    email: "harkiat@gmail.com",
+                if(existingUser){
+                    const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
+                    if(passwordValidation){
+                        return {
+                            id: existingUser.id.toString(),
+                            email: existingUser.email,
+                        }
+                    }
+                    return null;
                 }
 
+                // if the user doesnt exists create one user
+                try{
+                    const user = await prisma.user.create({
+                        data: {
+                            email: credentials.email,
+                            password: hashedPassword
+                        }
+                    });
+                    return {
+                        id: user.id.toString(),
+                        email: user.email,
+                    }
+                }
+                catch(e){
+                    console.error(e);
+                }
+                
+                return null;
             },
         })
     ],

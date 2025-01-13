@@ -20,3 +20,5 @@ Every entry in the upvotes table needs to be unique for userId and StreamId you 
 single user can upvote twice on the same StreamId
 
  #00BFFF
+
+Adding zod to filter out the schema, zod lets you parse the incoming data, the user can send any arbitary data but zod lets you parse the data
